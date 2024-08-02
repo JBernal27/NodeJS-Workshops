@@ -6,8 +6,11 @@ const app = express();
 // middleware to handle json format
 app.use(express.json())
 
-//Llamar un enrutador
 app.use('/', routes)
+
+app.get("/",(_,res) => {
+    res.send("Hello World");
+})
 
 app.listen(3000, () => {
     console.log("El servidor esta arriba en el puerto 3000")
