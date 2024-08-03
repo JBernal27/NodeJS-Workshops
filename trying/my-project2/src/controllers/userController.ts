@@ -1,37 +1,20 @@
-import { Request, Response } from 'express';
-import { IUser } from '../interfaces/user';
-import pool from '../data-access/db';
-import { UserRepository } from '../data-access/userRepository';
+import { Request, Response } from "express";
+import { User } from "../interfaces/user";
+import pool from "../config/db";
+import { UserRepository } from "../data-access/userRepository";
 
 export class UserController {
-    static getAll = async (req: Request, res: Response) => {
-        const userRepository = new UserRepository(pool);
-        const allUsers = await userRepository.all();
-        res.status(200).json({
-            status: 200,
-            data: allUsers
-        })
-    }
-
-    // static create = async (req: Request, res: Response) => {
-    //     const user: IUser = req.body;
-    //     const userRepository = new UserRepository(pool);
-    //     const createUser = await userRepository.create(user)
-    //     res.status(200).json({
-    //         status: 200,
-    //         data: createUser
-    //     })
-    // }
+  static async getAll(_: Request, res: Response) {
+    const userRepository = new UserRepository(pool);
+    const allUsers = await userRepository.all();
+    res.status(200).json({
+      status: 200,
+      data: allUsers,
+    });
+  }
 }
 
-// export const getAll = async (req: Request, res: Response) => {
-//   try {
-//     const [rows] = await pool.query('SELECT * FROM users');
-//     res.json(rows);
-//   } catch (error) {
-//     res.status(500).send('Server error');
-//   }
-// };
+// export const getAll = async () => {};
 
 // export const getUserById = async (req: Request, res: Response) => {
 //   const id = parseInt(req.params.id);
