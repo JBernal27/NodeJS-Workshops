@@ -6,3 +6,4 @@ export const userRouter = Router();
 userRouter.get('/', UserController.getAllUsers);
 userRouter.get('/:id', UserController.getUserById);
 userRouter.post('/', UserController.createUser);
+userRouter.post('/login', UserController.login);

@@ -1,10 +1,11 @@
 import UserRepository from "../repositories/userRepository";
 import { injectable, inject } from "tsyringe";
 import { User } from "../models/user";
+import jwt from 'jsonwebtoken';
 
 @injectable()
 export default class UserService {
-  constructor(@inject(UserRepository) private userRepository: UserRepository) {}
+  constructor(@inject(UserRepository) private userRepository: UserRepository) { }
 
   async getAllUsers() {
     return await this.userRepository.findAll();
@@ -16,6 +17,32 @@ export default class UserService {
 
   async createUser(user: Partial<User>) {
     return await this.userRepository.create(user);
+  }
+
+  async getUserByEmail(user: User) {
+
+    const userFounded: User | null = await this.userRepository.findByEmail(user.email)
+    const secretKey: string = "clan-ritchie"
+    
+    const options: jwt.SignOptions = {
+      expiresIn: "1h", // Tiempo de expiración del token
+      algorithm: "HS256" // Algoritmo de encriptación (opcional, HS256 es el predeterminado)
+    };
+
+    if (!userFounded) {
+      throw new Error("User not found")
+    } else if (user.password == userFounded.password) {
+
+      const payload = {
+        id: userFounded.id,
+        email: userFounded.email
+      };
+
+      const token = jwt.sign(payload, secretKey, options); // hs256 es el tipo de algoritmo automaticamente generado por JWT
+      return token;
+    } else {
+      throw new Error("Wrong password")
+    }
   }
 }
 

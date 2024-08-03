@@ -20,4 +20,13 @@ export default class UserController {
     const user = await userService.createUser(req.body);
     res.status(201).json(user);
   }
+
+  static async login(req: Request, res: Response) {
+    const userService = container.resolve(UserService);
+    const token = await userService.getUserByEmail(req.body);
+    res.status(200).json({
+      status:"200",
+      token: token
+    });
+  }
 }

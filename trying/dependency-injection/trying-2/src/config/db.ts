@@ -5,9 +5,9 @@ const sequelize: Sequelize = new Sequelize({
     dialect: 'mysql',
     host: 'localhost',
     username: 'root',
-    password: '',
+    password: '1022003230',
     database: 'erp',
-    models: [User, Product], // Añade todos tus modelos aquí
+    models: [User, Product],
 });
 
 export default sequelize;
